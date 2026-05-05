@@ -1,0 +1,21 @@
+  @Override
+    public void onEnable() {
+    saveDefaultConfig();
+    this.cosmeticManager = new CosmeticManager(this);
+    this.cosmeticManager.start();
+
+    getServer().getPluginManager().registerEvents(new CosmeticsMenuListener(this), this);
+    getServer().getPluginManager().registerEvents(new PlayerCosmeticListener(this), this);
+
+    if (getCommand("cosmetics") != null) {
+    getCommand("cosmetics").setExecutor(new CosmeticsCommand(this));
+    }
+    if (getCommand("recall") != null) {
+    getCommand("recall").setExecutor(new RecallCommand(this));
+    }
+    if (getCommand("cosmeticsteleport") != null) {
+    getCommand("cosmeticsteleport").setExecutor(new CosmeticsTeleportCommand(this));
+    }
+
+    Bukkit.getLogger().info("[AngelCosmetics] Enabled.");
+  }

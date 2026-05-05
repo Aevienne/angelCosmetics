@@ -1,0 +1,21 @@
+name: AngelCosmetics
+version: 1.0.0
+main: me.angelique.angelCosmetics.AngelCosmetics
+api-version: '1.21'
+author: Vincent Padua
+website: https://papermc.io
+commands:
+  cosmetics:
+    description: Open the cosmetics menu.
+    usage: /cosmetics
+  recall:
+    description: Play your equipped recall animation.
+    usage: /recall
+  cosmeticsteleport:
+    description: Teleport with recall animation.
+    usage: /cosmeticsteleport <x> <y> <z>
+permissions:
+  angelcosmetics.use:
+    default: true
+  angelcosmetics.teleport:
+    default: true
