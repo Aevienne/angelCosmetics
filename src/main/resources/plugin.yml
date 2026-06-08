@@ -4,6 +4,7 @@ main: me.angelique.angelCosmetics.AngelCosmetics
 api-version: '1.21'
 author: Vincent Padua
 website: https://papermc.io
+softdepend: [AngelNCore]
 commands:
   cosmetics:
     description: Open the cosmetics menu.
