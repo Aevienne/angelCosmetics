@@ -17,6 +17,7 @@ public final class AngelCosmetics extends JavaPlugin {
     public void onEnable() {
         saveDefaultConfig();
         this.cosmeticManager = new CosmeticManager(this);
+        this.cosmeticManager.loadData();
         this.cosmeticManager.start();
 
         getServer().getPluginManager().registerEvents(new CosmeticsMenuListener(this), this);

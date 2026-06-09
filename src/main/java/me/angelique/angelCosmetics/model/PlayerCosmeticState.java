@@ -1,9 +1,19 @@
 package me.angelique.angelCosmetics.model;
 
 public final class PlayerCosmeticState {
-    private TrailType trailType = TrailType.FLAME;
-    private WingType wingType = WingType.ANGEL;
-    private RecallType recallType = RecallType.BLUE;
+    private TrailType trailType;
+    private WingType wingType;
+    private RecallType recallType;
+
+    public PlayerCosmeticState() {
+        this(TrailType.FLAME, WingType.ANGEL, RecallType.BLUE);
+    }
+
+    public PlayerCosmeticState(TrailType trail, WingType wings, RecallType recall) {
+        this.trailType = trail;
+        this.wingType = wings;
+        this.recallType = recall;
+    }
 
     public TrailType getTrailType() {
         return trailType;

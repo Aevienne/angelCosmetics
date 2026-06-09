@@ -9,11 +9,14 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -51,8 +54,45 @@ public final class CosmeticManager {
         recallTasks.clear();
     }
 
+    private File dataFile;
+    private YamlConfiguration dataConfig;
+
+    public void loadData() {
+        dataFile = new File(plugin.getDataFolder(), "cosmetics_data.yml");
+        if (!dataFile.exists()) {
+            try { dataFile.createNewFile(); } catch (IOException ignored) {}
+        }
+        dataConfig = YamlConfiguration.loadConfiguration(dataFile);
+    }
+
     public PlayerCosmeticState getState(UUID uuid) {
-        return states.computeIfAbsent(uuid, key -> new PlayerCosmeticState());
+        return states.computeIfAbsent(uuid, key -> loadPlayerState(key));
+    }
+
+    private PlayerCosmeticState loadPlayerState(UUID uuid) {
+        String path = "players." + uuid.toString();
+        if (dataConfig != null && dataConfig.contains(path)) {
+            try {
+                TrailType trail = TrailType.valueOf(dataConfig.getString(path + ".trail", "FLAME"));
+                WingType wings = WingType.valueOf(dataConfig.getString(path + ".wings", "ANGEL"));
+                RecallType recall = RecallType.valueOf(dataConfig.getString(path + ".recall", "BLUE"));
+                return new PlayerCosmeticState(trail, wings, recall);
+            } catch (IllegalArgumentException ignored) {}
+        }
+        return new PlayerCosmeticState();
+    }
+
+    public void saveState(UUID uuid) {
+        if (dataConfig == null || dataFile == null) return;
+        PlayerCosmeticState state = states.get(uuid);
+        if (state == null) return;
+        String path = "players." + uuid.toString();
+        dataConfig.set(path + ".trail", state.getTrailType().name());
+        dataConfig.set(path + ".wings", state.getWingType().name());
+        dataConfig.set(path + ".recall", state.getRecallType().name());
+        try { dataConfig.save(dataFile); } catch (IOException e) {
+            plugin.getLogger().warning("Failed to save cosmetics: " + e.getMessage());
+        }
     }
 
     public void cancelRecall(UUID uuid) {

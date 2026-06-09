@@ -36,6 +36,7 @@ public final class CosmeticsMenuListener implements Listener {
         if (slot == 11) {
             TrailType[] values = TrailType.values();
             state.setTrailType(values[(state.getTrailType().ordinal() + 1) % values.length]);
+            plugin.getCosmeticManager().saveState(player.getUniqueId());
             player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1.0f, 1.2f);
             CosmeticsMenu.open(plugin, player);
             return;
@@ -44,6 +45,7 @@ public final class CosmeticsMenuListener implements Listener {
         if (slot == 13) {
             WingType[] values = WingType.values();
             state.setWingType(values[(state.getWingType().ordinal() + 1) % values.length]);
+            plugin.getCosmeticManager().saveState(player.getUniqueId());
             player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1.0f, 1.0f);
             CosmeticsMenu.open(plugin, player);
             return;
@@ -52,6 +54,7 @@ public final class CosmeticsMenuListener implements Listener {
         if (slot == 15) {
             RecallType[] values = RecallType.values();
             state.setRecallType(values[(state.getRecallType().ordinal() + 1) % values.length]);
+            plugin.getCosmeticManager().saveState(player.getUniqueId());
             player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1.0f, 0.8f);
             CosmeticsMenu.open(plugin, player);
             return;
